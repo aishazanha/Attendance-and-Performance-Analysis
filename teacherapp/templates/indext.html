@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Teacher Dashboard</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+    <style>
+        body {
+            background-color: #f5faff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #007bff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            border: 1px solid white;
+        }
+
+        .logout-btn:hover {
+            background: #e9ecef;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .dashboard-section {
+            margin-top: 30px;
+        }
+
+        .card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-body {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .card-icon {
+            font-size: 40px;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .btn-go {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h2>Welcome, {{ teacher.get_full_name|default:teacher.username }}</h2>
+    <a href="/lo/" class="logout-btn">Logout</a>
+</div>
+
+<!-- Dashboard Cards -->
+<div class="container dashboard-section">
+    <div class="row">
+        <!-- Class Arrangements -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h5 class="card-title">Class Arrangements</h5>
+                    <p>View and manage your assigned classes.</p>
+                    <a href="/class/" class="btn btn-primary btn-go">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Attendance -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h5 class="card-title">Add Attendance</h5>
+                    <p>Mark attendance for students in your class.</p>
+                    <a href="{% url 'attendance_year_selection' %}" class="btn btn-primary btn-go">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Marks -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-pen-alt"></i>
+                    </div>
+                    <h5 class="card-title">Add Marks</h5>
+                    <p>Enter marks and performance data for your students.</p>
+                    <a href="{% url 'marks_year_selection' %}" class="btn btn-primary btn-go">Go</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Overview -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5 class="card-title">Attendance Overview</h5>
+                    <p>View student-wise attendance records and percentage.</p>
+                    <a href="{% url 'attendance_year_summary' %}" class="btn btn-info btn-go">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Ranking -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="card-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h5 class="card-title">Student Ranking</h5>
+                    <p>See ranked list of students based on their grades.</p>
+                    <a href="{% url 'ranking_year_selection' %}" class="btn btn-warning btn-go">Rank Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+</body>
+</html>

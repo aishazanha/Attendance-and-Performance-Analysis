@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Exam Type</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f4f8fb;
+        }
+        .card {
+            border-radius: 1rem;
+        }
+        .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+<div class="container mt-5">
+    <div class="card p-4 shadow">
+        <h4 class="text-center mb-4 text-primary">Select Exam Type</h4>
+        <form method="get">
+            <!-- Hidden values to keep track of previously selected options -->
+            <input type="hidden" name="year_id" value="{{ year_id }}">
+            <input type="hidden" name="class_level" value="{{ class_level }}">
+            <input type="hidden" name="subject_id" value="{{ subject_id }}">
+
+            <div class="form-group">
+                <label for="examType">Exam Type</label>
+                <select id="examType" name="exam_type" class="form-control" required>
+                    <option value="">-- Select Exam --</option>
+                    {% for code, label in exam_types %}
+                        <option value="{{ code }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-right mt-3">
+                <button type="submit" class="btn btn-primary">Proceed to Enter Marks</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

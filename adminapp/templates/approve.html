@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin - User Management & Subject Setup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/responsive.css' %}">
+
+    <!-- Page‑specific CSS -->
+    <style>
+        body {
+            margin: 0;
+            background: #f5faff;
+            font-family: 'Segoe UI', Tahoma, Verdana;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #007bff;
+            padding-top: 30px;
+            color: #fff;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: .3s;
+        }
+        .sidebar a:hover {
+            background: #0056b3;
+        }
+
+        /* Main content */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .admin-section {               /* keep existing spacing */
+            padding-bottom: 60px;
+            min-height: 100vh;
+        }
+        .table th {
+            background: #007bff;
+            color: #fff;
+        }
+        .card {
+            border-radius: 10px;
+        }
+
+        /* Floating logout button */
+        .logout-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        /* Responsive tweak */
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; }
+            .content { margin-left: 200px; }
+        }
+    </style>
+</head>
+<body>
+<div class="super_container">
+
+    <!-- Floating Logout Button -->
+    <a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/approve/">Approve Teachers</a>
+        <a href="#create-subject">Create Subjects</a>
+       
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        <!-- Approve Teachers Section -->
+        <div class="container admin-section mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card shadow p-4">
+                        <h3 class="text-center mb-4"><strong>Approve or Delete Teachers</strong></h3>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Approve</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in det %}
+                                <tr>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                      <a href="{% url 'approve_teacher' id=user.id %}" class="btn btn-success btn-sm">Approve</a>
+
+                                    </td>
+                                    <td>
+                                        <a href="/del/{{ user.id }}" class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Are you sure?');">
+                                           Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">
+                                        No teachers pending approval.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Subject Section -->
+        <div id="create-subject" class="container admin-section mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow p-4">
+                        <h3 class="text-center mb-4"><strong>Step 1: Select Academic Year</strong></h3>
+
+                        <form id="year-select-form">
+                            <div class="form-group">
+                                <label for="academic-year">Academic Year</label>
+                                <select id="academic-year" name="academic_year" class="form-control" required>
+                                    <option value="">-- Select Academic Year --</option>
+                                    {% for year in academic_years %}
+                                        <option value="{{ year.id }}">{{ year.year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
+
+                        <div id="subject-form" style="display:none;">
+                            <h3 class="text-center mb-4 mt-4"><strong>Step 2: Assign Subject and Teachers</strong></h3>
+
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" id="selected-academic-year" name="academic_year">
+
+                                <div class="form-group">
+                                    <label for="name">Subject Name</label>
+                                    <select id="name" name="name" class="form-control" required>
+                                        <option value="">-- SELECT SUBJECT --</option>
+                                        <option value="MALAYALAM">MALAYALAM</option>
+                                        <option value="ENGLISH">ENGLISH</option>
+                                        <option value="HINDI">HINDI</option>
+                                        <option value="MATHS">MATHS</option>
+                                        <option value="SOCIAL">SOCIAL</option>
+                                        <option value="SCIENCE">SCIENCE</option>
+                                        <option value="IT">IT</option>
+                                        <option value="GENERAL KNOWLEDGE">GENERAL KNOWLEDGE</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">Subject Code</label>
+                                    <select id="code" name="code" class="form-control" required>
+                                        <option value="">-- SELECT SUBJECT CODE --</option>
+                                        <option value="MAL101">MAL101 - MALAYALAM</option>
+                                        <option value="ENG102">ENG102 - ENGLISH</option>
+                                        <option value="HIN103">HIN103 - HINDI</option>
+                                        <option value="MAT104">MAT104 - MATHS</option>
+                                        <option value="SOC105">SOC105 - SOCIAL</option>
+                                        <option value="SCI106">SCI106 - SCIENCE</option>
+                                        <option value="IT107">IT107 - IT</option>
+                                        <option value="GK108">GK108 - GENERAL KNOWLEDGE</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="class_level">Class</label>
+                                    <select id="class_level" name="class_level" class="form-control" required>
+                                        <option value="">-- Select Class --</option>
+                                        {% for i in class_range %}
+                                            <option value="{{ i }}">{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="teacher">Assign Teacher</label>
+                                    <select id="teacher" name="teacher" class="form-control" required>
+                                        <option value="">-- Select Approved Teacher --</option>
+                                        {% for teacher in approved_teachers %}
+                                            <option value="{{ teacher.id }}">
+                                                {{ teacher.get_full_name }} ({{ teacher.username }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary">Create Subject</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /Create Subject Section -->
+
+    </div><!-- /content -->
+</div><!-- /super_container -->
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+
+<script>
+    /* Show / hide subject form once an academic year is chosen */
+    document.getElementById('academic-year').addEventListener('change', function () {
+        const selectedYear = this.value;
+        if (selectedYear) {
+            document.getElementById('subject-form').style.display = 'block';
+            document.getElementById('selected-academic-year').value = selectedYear;
+        } else {
+            document.getElementById('subject-form').style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

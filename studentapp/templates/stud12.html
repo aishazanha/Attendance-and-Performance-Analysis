@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Attendance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+      body{background:#f5faff;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+      .table thead th{text-align:center;}
+      .table tbody td{text-align:center;}
+      .table tbody td:first-child{text-align:left;}
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+    <h4 class="text-center mb-4 text-info">
+        Attendance Summary – {{ student.name }}
+    </h4>
+
+    <table class="table table-bordered bg-white">
+      <thead class="thead-dark">
+        <tr>
+          <th>Subject</th>
+          <th>Total&nbsp;Classes</th>
+          <th>Present</th>
+          <th>% Present</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="text-left">{{ r.name }} ({{ r.code }})</td>
+          <td>{{ r.total }}</td>
+          <td>{{ r.present }}</td>
+          <td>{{ r.pct }}%</td>
+        </tr>
+        {% endfor %}
+        <tr class="font-weight-bold bg-light">
+          <td class="text-left">Overall</td>
+          <td>{{ grand_total }}</td>
+          <td>{{ grand_present }}</td>
+          <td>{{ overall_pct }}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+</body>
+</html>

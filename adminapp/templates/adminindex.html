@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+
+    <style>
+        /* ----------   BASIC LAYOUT   ---------- */
+        body {
+            margin: 0;
+            background-color: #f5faff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ----------   SIDEBAR   ---------- */
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #007bff;
+            padding-top: 30px;
+            color: #fff;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, .1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            transition: background-color .3s;
+        }
+        .sidebar a:hover { background-color: #0056b3; }
+
+        /* ----------   HEADER   ---------- */
+        .header {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header .header_side a {
+            font-size: 18px;
+            border-radius: 20px;
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 10px 20px;
+            transition: all .3s;
+        }
+        .header .header_side a:hover {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #0056b3;
+        }
+
+        /* ----------   MAIN CONTENT   ---------- */
+        .content {
+            margin-left: 250px;          /* room for sidebar */
+            min-height: 100vh;           /* full‑height flex box */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dashboard cards section is now perfectly centred */
+        .admin-section {
+            flex: 1;                     /* take remaining height */
+            display: flex;
+            align-items: center;         /* vertical centring   */
+            justify-content: center;     /* horizontal centring */
+            padding: 60px 0;             /* breathing space     */
+        }
+
+        /* ----------   DASHBOARD CARDS   ---------- */
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: .3s;
+            background-color: #ffffff;
+        }
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+        }
+        .card-icon   { font-size: 50px; color: #007bff; }
+        .card-title  { font-size: 22px; font-weight: 600; }
+
+        /* ----------   RESPONSIVE   ---------- */
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; }
+            .content { margin-left: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ----------  SIDEBAR (simple links – edit as needed)  ---------- -->
+    <nav class="sidebar">
+        <a href="/approve/">Home</a>
+        <a href="{% url 'teacher_list' %}">User Mgmt</a>
+        <a href="{% url 'add_academic_year' %}">Add Year</a>
+        <a href="{% url 'lst' %}">Updated List</a>
+        <a href="/sc/">Register Students</a>
+        <a href="{% url 'attendance_select_year_class' %}">Attendance</a>
+        <a href="{% url 'marks_select_year_class' %}">Marks</a>
+    </nav>
+
+    <!-- ----------  MAIN CONTENT  ---------- -->
+    <div class="content">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo_container d-flex align-items-center">
+                <img src="{% static 'images/logo.png' %}" alt="logo" style="height:40px;margin-right:10px;">
+                <span>Admin&nbsp;Dashboard</span>
+            </div>
+            <div class="header_side">
+                <!-- adjust href to your logout or home path -->
+                <a href="/lo/" class="btn btn-outline-light">LogOut</a>
+            </div>
+        </header>
+
+        <!-- Dashboard Cards (centred) -->
+        <div class="container admin-section">
+            <div class="row justify-content-center text-center">
+
+                <!-- User Management -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-users card-icon mb-3"></i>
+                            <h5 class="card-title">User Management</h5>
+                            <p class="card-text">Add, update, or remove users.</p>
+                            <a href="{% url 'teacher_list' %}" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Academic Year -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-calendar-plus card-icon mb-3"></i>
+                            <h5 class="card-title">Add Academic Year</h5>
+                            <p class="card-text">Create new academic years.</p>
+                            <a href="{% url 'add_academic_year' %}" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Updated List -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-list card-icon mb-3"></i>
+                            <h5 class="card-title">Updated List</h5>
+                            <p class="card-text">List of teachers & assigned subjects.</p>
+                            <a href="{% url 'lst' %}" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Register Students -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-user-plus card-icon mb-3"></i>
+                            <h5 class="card-title">Register Students</h5>
+                            <p class="card-text">Create or update student records.</p>
+                            <a href="/sc/" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Overview -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-calendar-check card-icon mb-3"></i>
+                            <h5 class="card-title">Attendance Overview</h5>
+                            <p class="card-text">View attendance of all classes.</p>
+                            <a href="{% url 'attendance_select_year_class' %}" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marks Overview -->
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow p-4">
+                        <div class="card-body">
+                            <i class="fas fa-chart-bar card-icon mb-3"></i>
+                            <h5 class="card-title">Marks Overview</h5>
+                            <p class="card-text">View or analyze student marks for exams.</p>
+                            <a href="{% url 'marks_select_year_class' %}" class="btn btn-primary w-100">Go</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+        </div><!-- /admin‑section -->
+    </div><!-- /content -->
+
+</body>
+</html>

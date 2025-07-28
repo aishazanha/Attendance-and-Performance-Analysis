@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter Marks</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    body { background:#f5faff; }
+    .grade-cell { width:90px; text-align:center; font-weight:bold; }
+    .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+  </style>
+</head>
+<body>
+  <div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+    <h4 class="text-center mb-3">
+      {{ exam_type }} | {{ subject.name }} | Class {{ class_level }} | {{ academic_year.year }}
+    </h4>
+
+    <div class="alert alert-info">
+      <strong>Grade Scale</strong> (based on 100 marks):
+      {% for g,min,max in grade_scale %}
+        {{ g }} ({{ min }}–{{ max }}){% if not forloop.last %}; {% endif %}
+      {% endfor %}
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr><th>#</th><th>Roll</th><th>Name</th><th>Mark</th><th>Grade</th></tr>
+        </thead>
+        <tbody>
+        {% for stu in students %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ stu.roll_number }}</td>
+            <td>{{ stu.name }}</td>
+            <td style="width:110px;">
+              <input type="number"
+                     name="mark_{{ stu.id }}"
+                     class="form-control mark-input"
+                     min="0" max="{{ max_mark }}"
+                     placeholder="0‑{{ max_mark }}"
+                     data-target="#grade_{{ stu.id }}">
+            </td>
+            <td id="grade_{{ stu.id }}" class="grade-cell">–</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="text-right">
+        <button class="btn btn-success">Save Marks</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# ── 1.  grade_scale and max_mark as pure JSON (no template tags in JS) ── #}
+{{ grade_scale|json_script:"grade-scale-data" }}
+{{ max_mark|json_script:"max-mark-data" }}
+
+{# ── 2.  Plain JavaScript; VS Code sees no template syntax ── #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const scale = JSON.parse(document.getElementById('grade-scale-data').textContent);
+  const maxMark = JSON.parse(document.getElementById('max-mark-data').textContent);
+
+  function calcGrade(mark) {
+    const percent = Math.round(mark * 100 / maxMark);
+    for (const [grade, lo, hi] of scale) {
+      if (percent >= lo && percent <= hi) return grade;
+    }
+    return 'F';
+  }
+
+  document.querySelectorAll('.mark-input').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const val = parseFloat(e.target.value);
+      const cell = document.querySelector(e.target.dataset.target);
+      if (!cell) return;
+      cell.textContent = Number.isFinite(val) ? calcGrade(val) : '–';
+    });
+  });
+});
+</script>
+</body>
+</html>

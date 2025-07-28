@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Select Year & Class</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    body {
+      background: #f5faff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card-year,
+    .card-class {
+      border: none;
+      border-radius: 12px;
+      transition: .3s;
+    }
+    .card-year:hover,
+    .card-class:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+    }
+    .link-blue {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .logout-btn {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Home Button -->
+<a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+<div class="container mt-5">
+
+  <form method="get" class="form-inline justify-content-center mb-4">
+      <label class="mr-2 font-weight-bold">Academic Year:</label>
+      <select name="year_id" class="form-control mr-2" onchange="this.form.submit()">
+          {% for y in years %}
+              <option value="{{ y.id }}" {% if y.id == selected_year_id %}selected{% endif %}>
+                  {{ y.year }}
+              </option>
+          {% endfor %}
+      </select>
+      <noscript><button class="btn btn-primary btn-sm">Go</button></noscript>
+  </form>
+
+  <h4 class="text-center text-secondary mb-3">Select Class – {{ year.year }}</h4>
+
+  <div class="row justify-content-center">
+      {% for lvl in class_levels %}
+        <div class="col-md-3 col-sm-6 mb-4">
+          <div class="card card-class text-center">
+            <a href="{% url 'attendance_student_overview' year.id lvl %}"
+               class="link-blue" style="display:block;padding:35px 0;">
+               Class {{ lvl }}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+</div>
+</body>
+</html>

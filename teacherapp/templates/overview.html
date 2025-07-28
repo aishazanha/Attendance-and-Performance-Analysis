@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Overview</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+  </style>
+</head>
+<body style="background:#f5faff;">
+    <div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+    
+<div class="container mt-5">
+
+  <h3 class="text-primary mb-4">
+      Attendance – Class {{ class_level }} |
+      {{ subject.name }} | {{ academic_year.year }}
+  </h3>
+
+  {# ---------------- view selector ---------------- #}
+  <div class="mb-4">
+      <a href="{% url 'attendance_overview' %}?year_id={{ academic_year.id }}&class_level={{ class_level }}&subject_id={{ subject.id }}"
+         class="btn btn-outline-info btn-sm {% if view_mode == 'list' %}active{% endif %}">
+         Daily&nbsp;List
+      </a>
+      <a href="{% url 'attendance_overview' %}?year_id={{ academic_year.id }}&class_level={{ class_level }}&subject_id={{ subject.id }}&view=students"
+         class="btn btn-outline-secondary btn-sm {% if view_mode == 'students' %}active{% endif %}">
+         Attendance&nbsp;%
+      </a>
+  </div>
+
+  {# -------------- DAILY RECORDS (view=list) -------------- #}
+  {% if view_mode == 'list' %}
+      <!-- date search -->
+      <form method="get" class="form-inline mb-3">
+          <input type="hidden" name="year_id"     value="{{ academic_year.id }}">
+          <input type="hidden" name="class_level" value="{{ class_level }}">
+          <input type="hidden" name="subject_id"  value="{{ subject.id }}">
+
+          <label class="mr-2">Date:</label>
+          <input type="date" name="date" class="form-control mr-2"
+                 value="{{ selected_date|default_if_none:'' }}">
+          <button class="btn btn-primary btn-sm">Go</button>
+      </form>
+
+      {% if selected_date %}
+          <h5>Attendance for {{ selected_date }}</h5>
+          {% if day_records %}
+              <table class="table table-bordered">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th>#</th><th>Roll</th><th>Name</th>
+                          <th>Period</th><th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for rec in day_records %}
+                      <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ rec.student.roll_number }}</td>
+                          <td>{{ rec.student.name }}</td>
+                          <td>{{ rec.period }}</td>
+                          <td>{{ rec.status }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          {% else %}
+              <div class="alert alert-warning">
+                  No attendance recorded for this date.
+              </div>
+          {% endif %}
+      {% endif %}
+  {% endif %}
+
+  {# -------------- PER‑STUDENT PERCENTAGES (view=students) -------------- #}
+  {% if view_mode == 'students' %}
+      <h5 class="mt-3">Overall Attendance Percentage</h5>
+      <table class="table table-sm table-hover table-bordered">
+          <thead class="thead-dark">
+              <tr>
+                  <th>#</th><th>Roll</th><th>Name</th>
+                  <th class="text-center">Present</th>
+                  <th class="text-center">Total</th>
+                  <th class="text-center">% Present</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for s in student_stats %}
+              <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ s.roll }}</td>
+                  <td>{{ s.name }}</td>
+                  <td class="text-center">{{ s.present }}</td>
+                  <td class="text-center">{{ s.total }}</td>
+                  <td class="text-center">{{ s.pct }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  {% endif %}
+
+</div>
+</body>
+</html>

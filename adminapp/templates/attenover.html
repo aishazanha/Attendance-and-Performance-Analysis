@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance – Class {{ class_level }}</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+      body {
+          background: #f5faff;
+      }
+
+      th.rotate {
+          writing-mode: vertical-rl;
+          transform: rotate(180deg);
+          padding: 5px 2px;
+      }
+
+      .low  { color: #dc3545; font-weight: 600; }
+      .mid  { color: #ffc107; font-weight: 600; }
+      .high { color: #28a745; font-weight: 600; }
+
+      .logout-btn {
+          position: fixed;
+          top: 15px;
+          right: 20px;
+          z-index: 999;
+      }
+  </style>
+</head>
+<body>
+
+<!-- Logout Button -->
+<a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+<div class="container mt-5">
+  <h3 class="text-primary text-center mb-4">
+      Attendance ({{ year.year }}) – Class {{ class_level }}
+  </h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm bg-white shadow-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Roll</th><th>Name</th>
+          {% for s in subjects %}
+              <th class="text-center">{{ s.code }}</th>
+          {% endfor %}
+          <th class="text-center">Overall %</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.roll }}</td>
+          <td>{{ r.name }}</td>
+
+          {% for subj in r.subjects %}
+            <td class="text-center
+              {% if subj.pct >= 85 %}
+                text-success font-weight-bold
+              {% elif subj.pct >= 75 %}
+                text-warning font-weight-bold
+              {% else %}
+                text-danger font-weight-bold
+              {% endif %}
+            ">
+              {{ subj.pct }}%
+            </td>
+          {% endfor %}
+
+          <td class="text-center
+            {% if r.overall_pct >= 85 %}
+              text-success font-weight-bold
+            {% elif r.overall_pct >= 75 %}
+              text-warning font-weight-bold
+            {% else %}
+              text-danger font-weight-bold
+            {% endif %}
+          ">
+            {{ r.overall_pct }}%
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-3">
+    <a href="{% url 'attendance_select_year_class' %}?year_id={{ year.id }}" class="btn btn-outline-secondary">
+      ← Back to Class List
+    </a>
+  </div>
+</div>
+</body>
+</html>

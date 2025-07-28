@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Course</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Course Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+<style>
+	
+	.hero {
+    background-image: url('/static/images/slider_background.jpg'); /* adjust path if needed */
+    background-size: cover;           /* makes image cover entire div */
+    background-position: center;      /* centers the image */
+    background-repeat: no-repeat;     /* prevents tiling */
+    width: 100%;
+    height: 100%;
+    position: absolute;               /* makes it stay behind other elements */
+    top: 0;
+    left: 0;
+    z-index: 0;
+	.header {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.main_nav_container {
+	background-color: #343a40; /* dark navbar */
+}
+
+.main_nav_list li a {
+	color: white !important;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+.main_nav_list li a:hover {
+	color: #ffcc00 !important;
+}
+.auth_buttons a {
+	font-weight: 500;
+	text-transform: uppercase;
+	margin-left: 30px;
+}
+.header_side a:hover {
+	color: whitesmoke !important;
+}
+
+	}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	<header class="header d-flex flex-row">
+		<div class="header_content d-flex flex-row align-items-center">
+			<!-- Logo -->
+			<div class="logo_container">
+				<div class="logo">
+					<img src="{% static 'images/logo.png' %}" alt="">
+				   <span>Attendance and Performance Analysis</span>
+				</div>
+			</div>
+
+			
+
+		<div class="header_side d-flex flex-row justify-content-center align-items-center">
+			<a href="/lo/" class="btn btn-outline-light mr-3" style="font-size: 18px; border-radius: 20px;">Login</a>
+			<a href="/in/" class="btn btn-outline-light" style="font-size: 18px; border-radius: 20px;">Sign Up</a>
+		</div
+		
+		
+		<div class="hamburger_container">
+			<i class="fas fa-bars trans_200"></i>
+		</div>
+
+	</header>
+	
+	
+	<div class="menu_container menu_mm">
+
+		<!-- Menu Close Button -->
+		<div class="menu_close_container">
+			<div class="menu_close"></div>
+		</div>
+
+		<!-- Menu Items -->
+		
+	</div>
+	
+	<!-- Home -->
+
+	<div class="home">
+
+		<!-- Hero Slider -->
+		<div class="hero_slider_container">
+			<div class="hero_slider owl-carousel">
+				
+				<!-- Hero Slide -->
+				
+				<div class="hero_slide">
+					<div class="hero"></div>
+
+					<div class="hero_slide_container d-flex flex-column align-items-center justify-content-center">
+						<div class="hero_slide_content text-center">
+							<h1 data-animation-in="fadeInUp" data-animation-out="animate-out fadeOut">Get your <span>Education</span> today!</h1>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Hero Slide -->
+				
+				
+				
+				<!-- Hero Slide -->
+				
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+				
+				
+
+				
+
+				
+
+	
+	<!-- Services -->
+
+	<div class="services page_section">
+		
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h1>Our Services</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row services_row">
+
+				
+
+				<div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+					<div class="icon_container d-flex flex-column justify-content-end">
+						<img src="{% static 'images/exam.svg' %}" alt="">
+					</div>
+					<h3>Attendance Tracker</h3>
+					<p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum.</p>
+				</div>
+
+				<div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+					<div class="icon_container d-flex flex-column justify-content-end">
+						<img src="{% static 'images/books.svg' %}" alt="">
+					</div>
+					<h3>Performance Analysis</h3>
+					<p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum.</p>
+				</div>
+
+				
+
+				<div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+					<div class="icon_container d-flex flex-column justify-content-end">
+						<img src="{% static 'images/blackboard.svg' %}" alt="">
+					</div>
+					<h3>Attendance Alert</h3>
+					<p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum.</p>
+				</div>
+
+				<div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+					<div class="icon_container d-flex flex-column justify-content-end">
+						<img src="{% static 'images/mortarboard.svg' %}" alt="">
+					</div>
+					<h3>Acadamic Updates</h3>
+					<p>In aliquam, augue a gravida rutrum, ante nisl fermentum nulla, vitae tempor nisl ligula vel nunc. Proin quis mi malesuada, finibus tortor fermentum.</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+			
+
+
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/TimelineMax.min.js' %}"></script>
+<script src="{% static 'plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/ScrollToPlugin.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

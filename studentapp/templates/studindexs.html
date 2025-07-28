@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+
+    <style>
+        body{margin:0;background:#f5faff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+
+        /* header */
+        .header{background:#007bff;color:#fff;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;}
+        .logout-btn{background:#fff;color:#007bff;border:1px solid #fff;padding:8px 15px;border-radius:5px;text-decoration:none}
+        .logout-btn:hover{background:#e9ecef;}
+
+        /* cards */
+        .card{border:none;border-radius:12px;box-shadow:0 2px 10px rgba(0,123,255,.1);transition:.2s}
+        .card:hover{transform:translateY(-5px);}
+        .card-icon{font-size:40px;color:#007bff;margin-bottom:15px;}
+        .card-title{font-size:20px;font-weight:bold;color:#007bff;}
+
+        .container{margin-top:40px;}
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h4>Welcome, {{ student.name }}</h4>
+    <a href="/lo/" class="logout-btn">Logout</a>
+</div>
+
+<!-- Cards -->
+<div class="container">
+  <div class="row justify-content-center">
+
+    <!-- Profile -->
+     <!-- My Profile -->
+<div class="col-md-4 mb-4">
+  <div class="card h-100 text-center p-4">
+    <div class="card-body">
+      <i class="fas fa-user card-icon"></i>
+      <h5 class="card-title">My Profile</h5>
+      <p>View your name, class, and roll number.</p>
+      <a href="{% url 'my_profile' %}" class="btn btn-primary w-100">Go</a>
+    </div>
+  </div>
+</div>
+
+    
+
+    <!-- Attendance -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center p-4">
+        <div class="card-body">
+          <i class="fas fa-calendar-check card-icon"></i>
+          <h5 class="card-title">My Attendance</h5>
+          <p>Check your attendance percentage for each subject.</p>
+          <a href="{% url 'my_attendance' %}" class="btn btn-info w-100">Go</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marks -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center p-4">
+        <div class="card-body">
+          <i class="fas fa-chart-bar card-icon"></i>
+          <h5 class="card-title">My Marks</h5>
+          <p>View marks and overall grades.</p>
+          <a href="{% url 'my_marks' %}" class="btn btn-success w-100">Go</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+</body>
+</html>

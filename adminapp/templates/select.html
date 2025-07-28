@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Class for Student Registration</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        .logout-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+
+    <!-- Floating Logout Button -->
+    <a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+    <h2>Select Class</h2>
+
+    <form method="get" class="form-inline mb-4">
+        <label class="mr-2">Select Academic Year:</label>
+        <select name="year" class="form-control mr-2" required>
+            <option value="">-- Select Year --</option>
+            {% for year in academic_years %}
+                <option value="{{ year.id }}" {% if year.id == selected_year_id %}selected{% endif %}>
+                    {{ year.year }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Show Classes</button>
+    </form>
+
+    {% if selected_year_id %}
+        <h4>Class Levels</h4>
+        <div class="row">
+            {% for level in class_levels %}
+                <div class="col-md-3 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Class {{ level }}</h5>
+                            <a href="{% url 'admin_register_students_by_class' year_id=selected_year_id class_level=level %}" class="btn btn-success">
+                                Register Students
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

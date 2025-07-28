@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Academic Year</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <style>
+         .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <h2 class="mb-4">Select Academic Year</h2>
+
+    <!-- Logout Button -->
+<div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+
+    <div class="list-group">
+        {% for y in years %}
+            <a href="{% url 'assigned_courses' y.id %}" class="list-group-item list-group-item-action">
+                {{ y.year }}
+            </a>
+        {% empty %}
+            <div class="alert alert-info">No courses assigned yet.</div>
+        {% endfor %}
+    </div>
+</body>
+</html>

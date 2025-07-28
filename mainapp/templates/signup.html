@@ -1,0 +1,224 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Signup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/responsive.css' %}">
+
+    <style>
+      
+        .hero {
+    background-image: url('/static/images/slider_background.jpg'); /* adjust path if needed */
+    background-size: cover;           /* makes image cover entire div */
+    background-position: center;      /* centers the image */
+    background-repeat: no-repeat;     /* prevents tiling */
+    width: 100%;
+    height: 100%;
+    position: absolute;               /* makes it stay behind other elements */
+    top: 0;
+    left: 0;
+    z-index: 0;
+	.header {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.main_nav_container {
+	background-color: #343a40; /* dark navbar */
+}
+
+.main_nav_list li a {
+	color: white !important;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+.main_nav_list li a:hover {
+	color: #ffcc00 !important;
+}
+.auth_buttons a {
+	font-weight: 500;
+	text-transform: uppercase;
+	margin-left: 30px;
+}
+.header_side a:hover {
+	color: whitesmoke !important;
+}
+
+	}
+
+
+        /* Center the form wrapper */
+        .form-wrapper {
+            margin-top: 100px; /* Reduced margin-top to bring the form closer to the navbar */
+            margin-bottom: 20px;
+            z-index: 5;
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            flex: 0 0 30%; /* Adjust the width of labels */
+            margin-right: 10px;
+        }
+
+        .form-group input, .form-group select {
+            flex: 1; /* Make the input fields take remaining space */
+        }
+
+        #errorMsg {
+            font-size: 0.875rem;
+        }
+
+        .super_container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Add colon to labels */
+        .form-group label::after {
+            content: ":";
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <header class="header d-flex flex-row">
+		<div class="header_content d-flex flex-row align-items-center">
+			<!-- Logo -->
+			<div class="logo_container">
+				<div class="logo">
+					<img src="{% static 'images/logo.png' %}" alt="">
+				   <span>Attendance and Performance Analysis</span>
+				</div>
+			</div>
+
+			
+
+		<div class="header_side d-flex flex-row justify-content-center align-items-center">
+			<a href="/lo/" class="btn btn-outline-light mr-3" style="font-size: 18px; border-radius: 20px;">Login</a>
+			<a href="/in/" class="btn btn-outline-light" style="font-size: 18px; border-radius: 20px;">Sign Up</a>
+		</div
+		
+		
+		<div class="hamburger_container">
+			<i class="fas fa-bars trans_200"></i>
+		</div>
+
+	</header>
+	
+	
+
+    <!-- Hero Section with Background and Form -->
+    <div class="hero"></div>
+
+    <div class="super_container">
+        <div class="content-wrapper">
+            <div class="form-wrapper">
+                {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form action="" method="post" onsubmit="return checkPasswords()">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="uname" placeholder="Enter your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="ename" placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="usename" placeholder="Choose a username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">User Type</label>
+                        <select class="form-select form-control" name="type" id="type">
+                            <option value="Teacher">Teacher</option>
+                           
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pass">Password</label>
+                        <input type="password" class="form-control" id="pass" name="pass" placeholder="Create a password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="conpass">Confirm Password</label>
+                        <input type="password" class="form-control" id="conpass" name="conpass" placeholder="Confirm your password">
+                        <span id="errorMsg" class="text-danger d-none">Passwords do not match!</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mt-4">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+    <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+
+    <script>
+        function checkPasswords() {
+            const pass = document.getElementById('pass').value;
+            const confirm = document.getElementById('conpass').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (pass === confirm) {
+                errorMsg.classList.add('d-none');
+                return true;
+            } else {
+                errorMsg.classList.remove('d-none');
+                return false;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

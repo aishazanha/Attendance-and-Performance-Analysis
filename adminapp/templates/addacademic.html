@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Academic Year</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+    <!-- Page‑specific CSS -->
+    <style>
+        /* Floating logout button */
+        .logout-btn{
+            position:fixed;
+            top:15px;
+            right:20px;
+            z-index:999;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Floating Logout Button -->
+<a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+<div class="container mt-5">
+    <h3 class="mb-4">Add Academic Year</h3>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="year">Academic Year (e.g. 2025-2026):</label>
+            <input type="text" name="year" id="year" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Year</button>
+    </form>
+
+    <hr>
+    <h5>Existing Academic Years</h5>
+    <ul class="list-group mt-3">
+        {% for y in years %}
+            <li class="list-group-item">{{ y.year }}</li>
+        {% empty %}
+            <li class="list-group-item">No academic years added yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

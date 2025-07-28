@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Marks – Class {{ class_level }}</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    body {
+      background-color: #f5faff;
+    }
+    h3 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 30px;
+    }
+    table th, table td {
+      text-align: center;
+    }
+    .home-btn {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Home Button -->
+<a href="/approve/" class="btn btn-danger btn-sm home-btn">Home</a>
+
+<div class="container mt-5">
+  <h3>Marks – Class {{ class_level }} | {{ year.year }}</h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered bg-white shadow-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Roll No</th>
+          <th>Name</th>
+          {% for subj in subjects %}
+            <th>{{ subj.code }}<br><small>{{ subj.name }}</small></th>
+          {% endfor %}
+          <th>Overall %</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.roll }}</td>
+          <td>{{ r.name }}</td>
+          {% for s in r.subjects %}
+            <td>{{ s.pct }}%<br><small>{{ s.grade }}</small></td>
+          {% endfor %}
+          <td><strong>{{ r.overall_pct }}%</strong></td>
+          <td><strong>{{ r.overall_grade }}</strong></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-3">
+    <a href="{% url 'marks_select_year_class' %}?year_id={{ year.id }}" class="btn btn-outline-secondary">
+      ← Back to Class Selection
+    </a>
+  </div>
+</div>
+</body>
+</html>

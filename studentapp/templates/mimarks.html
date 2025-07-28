@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Marks</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    body{background:#f5faff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+    .thead-dark th{text-align:center;}
+    td{text-align:center;} td:first-child{text-align:left;}
+    .grade{font-weight:bold;}
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+    <h4 class="text-info text-center mb-4">Exam Marks – {{ student.name }}</h4>
+
+    <div class="table-responsive">
+      <table class="table table-bordered bg-white">
+        <thead class="thead-dark">
+          <tr>
+            <th rowspan="2">Subject</th>
+            {% for n in "123" %}
+              <th colspan="4">Series&nbsp;{{ n }} + Internal&nbsp;{{ n }}</th>
+            {% endfor %}
+            <th rowspan="2">Overall&nbsp;%</th>
+            <th rowspan="2">Overall&nbsp;Grade</th>
+          </tr>
+          <tr>
+            {% for n in "123" %}
+              <th>S{{ n }}</th><th>I{{ n }}</th><th>Total</th><th>Grade</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in records %}
+          <tr>
+            <td>{{ r.name }} ({{ r.code }})</td>
+            {% for p in r.pairs %}
+              <td>{{ p.series }}</td>
+              <td>{{ p.internal }}</td>
+              <td>{{ p.total }}</td>
+              <td class="grade">{{ p.grade }}</td>
+            {% endfor %}
+            <td>{{ r.overall_pct }}%</td>
+            <td class="grade">{{ r.overall_grade }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+</body>
+</html>

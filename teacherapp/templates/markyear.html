@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Academic Year – Marks</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+<body style="background-color: #f4f8fb;">
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title text-center text-primary mb-4">
+                Select Academic Year to Add Marks
+            </h3>
+
+            {% if years %}
+                <div class="list-group">
+                    {% for y in years %}
+                        <a href="{% url 'marks_assigned_courses' y.id %}" 
+                           class="list-group-item list-group-item-action">
+                            {{ y.year }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+                    No academic years available for mark entry.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

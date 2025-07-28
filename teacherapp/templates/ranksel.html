@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Select Exam‑Set</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+  </style>
+</head>
+<body class="container mt-5" style="background:#f5faff;">
+  <div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+  <h4 class="text-primary mb-4 text-center">Choose Exam‑Set</h4>
+  <div class="d-flex flex-column align-items-center">
+    {% for code, d in exam_sets.items %}
+      <a href="{% url 'ranking_results' year_id class_level subject_id code %}"
+         class="btn btn-outline-primary btn-lg mb-3" style="min-width:280px;">
+         {{ d.label }}
+      </a>
+    {% endfor %}
+  </div>
+</body>
+</html>

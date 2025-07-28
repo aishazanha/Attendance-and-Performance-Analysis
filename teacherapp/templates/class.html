@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Arrangements</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        .container {
+            margin-top: 80px;
+        }
+        .card {
+            border: 1px solid #007bff;
+            border-radius: 10px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-select {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-select:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Logout Button (top-right) -->
+<div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+
+<div class="container">
+    <h3 class="mb-4 text-center">Class Arrangements</h3>
+
+    <!-- Academic Year Filter -->
+    <form method="get" class="form-inline justify-content-center mb-4">
+        <label class="mr-2">Select Academic Year:</label>
+        <select name="academic_year" class="form-control mr-2" required>
+            <option value="">-- Choose Academic Year --</option>
+            {% for year in academic_years %}
+                <option value="{{ year.id }}" {% if year.id|stringformat:'s' == selected_year_id %}selected{% endif %}>{{ year.year }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">View</button>
+    </form>
+
+    {% if assigned_courses %}
+        <div class="card">
+            <div class="card-header">Assigned Classes and Subjects</div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Subject(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in assigned_courses %}
+                            <tr>
+                                <td>Class {{ course.class_level }}</td>
+                                <td>
+                                    <ul>
+                                        {% for subject in course.subjects.all %}
+                                            <li>{{ subject.name }} ({{ subject.code }})</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% elif selected_year_id %}
+        <div class="alert alert-info text-center">No assigned classes found for the selected academic year.</div>
+    {% endif %}
+</div>
+
+</body>
+</html>

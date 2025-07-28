@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Take Attendance - Period {{ period }}</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/responsive.css' %}">
+    <style>
+        body {
+            background: #f5faff;
+            font-family: 'Segoe UI', Tahoma, Verdana;
+            padding-top: 30px;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .table th {
+            background: #007bff;
+            color: #fff;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Logout Button -->
+<div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+
+<div class="container">
+    <div class="card p-4">
+        <h3 class="text-center mb-4">
+            <strong> Attendance Sheet – Period {{ period }}</strong><br>
+            <small>{{ subject.name }} | Class {{ class_level }} | {{ academic_year.year }}</small>
+        </h3>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} text-center">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group row">
+                <label for="attendance-date" class="col-sm-2 col-form-label">Date:</label>
+                <div class="col-sm-4">
+                    <input type="date" id="attendance-date" name="date" class="form-control" value="{{ today|date:'Y-m-d' }}" required>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-striped table-hover mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stu in students %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ stu.roll_number }}</td>
+                        <td>{{ stu.name }}</td>
+                        <td>
+                            <select name="status_{{ stu.id }}" class="form-control" required>
+                                <option value="P">Present</option>
+                                <option value="A">Absent</option>
+                            </select>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No students in this class.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="text-right">
+                <button type="submit" class="btn btn-success">Save Attendance</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+</body>
+</html>

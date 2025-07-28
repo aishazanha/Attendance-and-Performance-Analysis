@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Classes & Subjects – Ranking</title>
+  <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+  <style>
+    .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+  </style>
+</head>
+<body class="container mt-5" style="background:#f8f9fa;">
+  <div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+  <h3 class="text-primary mb-4 text-center">
+      Student Ranking – {{ academic_year.year }}
+  </h3>
+
+  <table class="table table-bordered shadow-sm bg-white">
+    <thead class="thead-dark">
+      <tr><th>Class</th><th>Subject</th><th class="text-center">Action</th></tr>
+    </thead>
+    <tbody>
+      {% for i in items %}
+      <tr>
+        <td>{{ i.class_level }}</td>
+        <td>{{ i.subject_name }} ({{ i.subject_code }})</td>
+        <td class="text-center">
+          <a href="{% url 'ranking_select_exam' %}?year_id={{ academic_year.id }}&class_level={{ i.class_level }}&subject_id={{ i.subject_id }}"
+             class="btn btn-warning btn-sm">
+             Rank Students
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+        <tr><td colspan="3" class="text-center text-muted">None</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

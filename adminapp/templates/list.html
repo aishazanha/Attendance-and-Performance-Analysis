@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Subjects Created</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .header-title {
+            color: #004085;
+            font-weight: bold;
+        }
+
+        .card {
+            border: 1px solid #007bff;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table th {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .form-inline label {
+            color: #004085;
+        }
+
+        select.form-control {
+            min-width: 200px;
+        }
+
+        .alert-info {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Floating Logout Button -->
+<a href="/approve/" class="btn btn-danger btn-sm logout-btn">Home</a>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 header-title">Subjects Created (By Academic Year)</h2>
+
+    <!-- Dropdown Filter Form -->
+    <form method="get" class="form-inline justify-content-center mb-4">
+        <label for="year" class="mr-2">Select Academic Year:</label>
+        <select name="year" id="year" class="form-control mr-2" required>
+            <option value="">-- Choose Academic Year --</option>
+            {% for year in academic_years %}
+                <option value="{{ year.id }}" {% if year.id == selected_year_id %}selected{% endif %}>
+                    {{ year.year }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">View</button>
+    </form>
+
+    {% if subject_data %}
+        {% for year, subjects in subject_data.items %}
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Academic Year: {{ year }}</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Subject Code</th>
+                                <th>Class</th>
+                                <th>Assigned Teacher</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.subject_name }}</td>
+                                <td>{{ subject.subject_code }}</td>
+                                <td>{{ subject.class_level }}</td>
+                                <td>{{ subject.teacher }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">No subjects found for the selected academic year.</div>
+    {% endif %}
+</div>
+</body>
+</html>

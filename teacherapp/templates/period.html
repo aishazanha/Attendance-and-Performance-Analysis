@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select Period - Attendance</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .form-label {
+            font-weight: 600;
+        }
+         .top-right-logout {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+<div class="top-right-logout">
+    <a href="{% url 'teacher_dashboard' %}" class="btn btn-danger btn-sm">Home</a>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h4 class="text-center mb-4">📘 Select Period for Attendance</h4>
+
+                <form method="get">
+                    <!-- Hidden fields to carry original data -->
+                    <input type="hidden" name="year_id" value="{{ year_id }}">
+                    <input type="hidden" name="class_level" value="{{ class_level }}">
+                    <input type="hidden" name="subject_id" value="{{ subject_id }}">
+
+                    <!-- Display academic info -->
+                    <div class="form-group">
+                        <label class="form-label">Academic Year</label>
+                        <input type="text" class="form-control" value="{{ year.year }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Class Level</label>
+                        <input type="text" class="form-control" value="Class {{ class_level }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-control" value="{{ subject.name }}" readonly>
+                    </div>
+
+                    <!-- Period Dropdown -->
+                    <div class="form-group">
+                        <label class="form-label">Select Period</label>
+                        <select name="period" class="form-control" required>
+                            <option value="">-- Choose Period --</option>
+                            {% for p in periods %}
+                                <option value="{{ p }}">Period {{ p }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Proceed</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
