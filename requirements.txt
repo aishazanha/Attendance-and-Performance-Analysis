@@ -1,0 +1,10 @@
+distlib==0.3.9
+filelock==3.16.1
+gunicorn==23.0.0
+maskpass==0.3.7
+mysql-connector-python==9.1.0
+packaging==25.0
+platformdirs==4.3.6
+pynput==1.7.7
+six==1.16.0
+virtualenv==20.28.0
